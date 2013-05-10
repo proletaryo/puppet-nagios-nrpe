@@ -9,17 +9,17 @@ Tested to work on 32-bit/64-bit:
 
 ## Usage
 
-    class { 'nagios-nrpe':
+    class { 'nrpe':
       $allowed_hosts => [ "192.168.56.9", "10.10.10.23", ],
     }
  
-    class { 'nagios-nrpe':
+    class { 'nrpe':
       $allowed_hosts => [ "192.168.56.9", "10.10.10.23", ],
       ensure => running,
       enable => false,
     }
 
-## Enabled command definitions 
+### Enabled command definitions 
 
 Please note that this is intended to be used with Opsview so parameter passing was enabled.
 

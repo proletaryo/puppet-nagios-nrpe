@@ -1,4 +1,4 @@
-# = Class: nagios-nrpe
+# = Class: nrpe
 #
 # == Parameters:
 #
@@ -10,17 +10,17 @@
 #
 # == Sample Usage:
 #
-#   class { 'nagios-nrpe':
+#   class { 'nrpe':
 #     $allowed_hosts => [ "192.168.56.9", "10.10.10.23", ],
 #   }
 #
-#   class { 'nagios-nrpe':
+#   class { 'nrpe':
 #     $allowed_hosts => [ "192.168.56.9", "10.10.10.23", ],
 #     ensure => running,
 #     enable => false,
 #   }
 #
-class nagios-nrpe ( $allowed_hosts, $ensure = running, $enable = true ) {
+class nrpe ( $allowed_hosts, $ensure = running, $enable = true ) {
 
   validate_array($allowed_hosts)
 
@@ -28,9 +28,9 @@ class nagios-nrpe ( $allowed_hosts, $ensure = running, $enable = true ) {
     centos, redhat, amazon: {
       if ! defined(Class['rpmforge']) { include rpmforge }
 
-      $service      = 'nrpe' 
+      $service      = 'nrpe'
       $main_package = 'nagios-nrpe'
-      $packages     = [ 'nagios-nrpe', 'nagios-plugins-users', 'nagios-plugins-load', 
+      $packages     = [ 'nagios-nrpe', 'nagios-plugins-users', 'nagios-plugins-load',
         'nagios-plugins-disk', 'nagios-plugins-procs', 'nagios-plugins-swap', ]
 
     }
@@ -66,7 +66,7 @@ class nagios-nrpe ( $allowed_hosts, $ensure = running, $enable = true ) {
     mode    => 644,
     owner   => 'root',
     group   => 'root',
-    content => template('nagios-nrpe/nrpe.cfg.erb'),
+    content => template('nrpe/nrpe.cfg.erb'),
     require => Package[$main_package],
     notify  => Service[$service],
   }
