@@ -1,5 +1,4 @@
 # puppet-nagios-nrpe
-==================
 
 This module automates the installation of the NRPE agent for Nagios/Opsview.
 
@@ -20,9 +19,9 @@ Tested to work on 32-bit/64-bit:
       enable => false,
     }
 
-## Enabled command definitions (see templates/nagios.cfg.erb)
+## Enabled command definitions 
 
-Please note that this is intended to be used with Opsview.
+Please note that this is intended to be used with Opsview so parameter passing was enabled.
 
     command[check_users]=<%= libpath %>/nagios/plugins/check_users $ARG1$
     command[check_disk]=<%= libpath %>/nagios/plugins/check_disk $ARG1$
