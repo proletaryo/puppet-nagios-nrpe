@@ -1,5 +1,26 @@
-class nagios-nrpe ( $allowed_hosts ) {
-  # dependency: lboynton-rpmforge (osfamily: RedHat)
+# = Class: nagios-nrpe
+#
+# == Parameters:
+#
+# $allowed_hosts:: An array of allowed IPs that can connect to this NRPE instance
+#
+# == Requires:
+#
+# lboynton-rpmforge (for OS based on RHEL)
+#
+# == Sample Usage:
+#
+#   class { 'nagios-nrpe':
+#     $allowed_hosts => [ "192.168.56.9", "10.10.10.23", ],
+#   }
+#
+#   class { 'nagios-nrpe':
+#     $allowed_hosts => [ "192.168.56.9", "10.10.10.23", ],
+#     ensure => running,
+#     enable => false,
+#   }
+#
+class nagios-nrpe ( $allowed_hosts, $ensure = running, $enable = true ) {
 
   validate_array($allowed_hosts)
 
@@ -51,8 +72,8 @@ class nagios-nrpe ( $allowed_hosts ) {
   }
 
   service { $service:
-    ensure     => running,
-    enable     => true,
+    ensure     => $ensure,
+    enable     => $enable,
     hasrestart => true,
     hasstatus  => true,
     require    => [ Package[$main_package], File['nrpe.cfg'] ],
