@@ -20,6 +20,16 @@ Tested to work on 32-bit/64-bit:
       enable => false,
     }
 
+## Enabled command definitions (see templates/nagios.cfg.erb)
+
+Please note that this is intended to be used with Opsview.
+
+    command[check_users]=<%= libpath %>/nagios/plugins/check_users $ARG1$
+    command[check_disk]=<%= libpath %>/nagios/plugins/check_disk $ARG1$
+    command[check_procs]=<%= libpath %>/nagios/plugins/check_procs $ARG1$
+    command[check_load]=<%= libpath %>/nagios/plugins/check_load $ARG1$
+    command[check_swap]=<%= libpath %>/nagios/plugins/check_swap $ARG1$
+
 ## Dependencies
 
-Requires the (lboynton-rpmforge)[https://github.com/lboynton/puppet-rpmforge] for RHEL based distributions.
+Requires the [lboynton-rpmforge](https://github.com/lboynton/puppet-rpmforge) module for RHEL based distributions.
