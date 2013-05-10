@@ -2,7 +2,9 @@
 #
 # == Parameters:
 #
-# $allowed_hosts:: An array of allowed IPs that can connect to this NRPE instance
+# allowed_hosts:: An array of allowed IPs that can connect to this NRPE instance
+# ensure:: optional, running or stopped
+# enable:: optional, true or false
 #
 # == Requires:
 #
@@ -11,11 +13,11 @@
 # == Sample Usage:
 #
 #   class { 'nrpe':
-#     $allowed_hosts => [ "192.168.56.9", "10.10.10.23", ],
+#     allowed_hosts => [ "192.168.56.9", "10.10.10.23", ],
 #   }
 #
 #   class { 'nrpe':
-#     $allowed_hosts => [ "192.168.56.9", "10.10.10.23", ],
+#     allowed_hosts => [ "192.168.56.9", "10.10.10.23", ],
 #     ensure => running,
 #     enable => false,
 #   }

@@ -1,5 +1,5 @@
 name 'proletaryo-nrpe'
-version '1.0.0'
+version '1.0.1'
 summary "NRPE installation & management"
 description "NRPE installation & management module for CentOS/Ubuntu/AWS Linux"
 project_page "https://github.com/proletaryo/puppet-nagios-nrpe"

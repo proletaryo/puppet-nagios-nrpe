@@ -7,14 +7,20 @@ Tested to work on 32-bit/64-bit:
   * CentOS 6.x
   * Ubuntu 12.04
 
+## Parameters
+  * `allowed_hosts`: required
+  * `ensure`: optional, default=running
+  * `enable`: optional, default=true
+
 ## Usage
 
     class { 'nrpe':
-      $allowed_hosts => [ "192.168.56.9", "10.10.10.23", ],
+      allowed_hosts => [ "192.168.56.9", "10.10.10.23", ],
     }
  
+
     class { 'nrpe':
-      $allowed_hosts => [ "192.168.56.9", "10.10.10.23", ],
+      allowed_hosts => [ "192.168.56.9", "10.10.10.23", ],
       ensure => running,
       enable => false,
     }
