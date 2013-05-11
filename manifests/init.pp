@@ -70,8 +70,16 @@ class nrpe ( $allowed_hosts, $ensure = running, $enable = true, $service_check_c
   # allowed hosts to connect
   $hosts = join( $allowed_hosts, ',' )
 
-  package { $packages:
-    ensure => installed,
+  if $::osfamily == 'RedHat' {
+    package { $packages:
+      ensure  => installed,
+      require => Class['rpmforge'],
+    }
+  }
+  else {
+    package { $packages:
+      ensure => installed,
+    }
   }
 
   file { 'nrpe.cfg':
