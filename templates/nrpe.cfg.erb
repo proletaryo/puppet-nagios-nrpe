@@ -234,3 +234,8 @@ command[check_disk]=<%= libpath %>/nagios/plugins/check_disk $ARG1$
 command[check_procs]=<%= libpath %>/nagios/plugins/check_procs $ARG1$ 
 command[check_load]=<%= libpath %>/nagios/plugins/check_load $ARG1$
 command[check_swap]=<%= libpath %>/nagios/plugins/check_swap $ARG1$
+
+# custom commands
+<% service_check_command.each_pair do |name, command| -%>
+command[<%= name %>]=<%= command %>
+<% end -%>

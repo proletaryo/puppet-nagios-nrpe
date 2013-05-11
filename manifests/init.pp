@@ -5,6 +5,7 @@
 # allowed_hosts:: An array of allowed IPs that can connect to this NRPE instance
 # ensure:: optional, running or stopped
 # enable:: optional, true or false
+# service_check_command:: A hash containing the command definition e.g. { 'command_name' => '/path/to/it ARG' }
 #
 # == Requires:
 #
@@ -22,9 +23,20 @@
 #     enable => false,
 #   }
 #
-class nrpe ( $allowed_hosts, $ensure = running, $enable = true ) {
+#   class { 'nrpe':
+#     allowed_hosts         => [ "192.168.56.9", "10.10.10.23", ],
+#     ensure                => running,
+#     enable                => false,
+#     service_check_command => { 
+#       'check_mem'  => '/usr/local/nagios/plugins/check_mem 40 60',
+#       'check_blah' => '/usr/local/nagios/plugins/check_blah arg1 arg2',
+#     },
+#   }
+
+class nrpe ( $allowed_hosts, $ensure = running, $enable = true, $service_check_command = {} ) {
 
   validate_array($allowed_hosts)
+  validate_hash($service_check_command)
 
   case $::operatingsystem {
     centos, redhat, amazon: {
