@@ -11,6 +11,7 @@ Tested to work on 32-bit/64-bit:
   * `allowed_hosts`: required
   * `ensure`: optional, default=running
   * `enable`: optional, default=true
+  * `service_check_command`: optional, default={}, hash containing the custom command definitions e.g. { 'command_name' => '/path/to/it ARG' }
 
 ## Usage
 
