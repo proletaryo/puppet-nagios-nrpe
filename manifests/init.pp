@@ -2,10 +2,15 @@
 #
 # == Parameters:
 #
-# allowed_hosts:: An array of allowed IPs that can connect to this NRPE instance
-# ensure:: optional, running or stopped
-# enable:: optional, true or false
-# service_check_command:: A hash containing the command definition e.g. { 'command_name' => '/path/to/it ARG' }
+# allowed_hosts::   required, An array of allowed IPs that can connect to this NRPE instance
+# ensure::          optional, running or stopped, default=running
+# enable::          optional, true or false, default=true
+# dont_blame_nrpe:: optional, Toggle the dont_blame_nrpe config to enable/disable argument passing 
+#                   to check commands, default=false (dont_blame_nrpe=0)
+# opsview_use::    optional, Define basic check commands with arguments enabled, you have to set
+#                   dont_blame_nrpe=true to make this work
+# service_check_command:: optional, A hash containing the additional command definition 
+#                         e.g. { 'command_name' => '/path/to/it ARG' }
 #
 # == Requires:
 #
@@ -32,11 +37,31 @@
 #       'check_blah' => '/usr/local/nagios/plugins/check_blah arg1 arg2',
 #     },
 #   }
+#
+#   class { 'nrpe':
+#     allowed_hosts         => [ "192.168.56.9", "10.10.10.23", ],
+#     ensure                => running,
+#     enable                => true,
+#     dont_blame_nrpe       => true,
+#     opsview_use           => true,
+#     service_check_command => { 
+#       'check_mem'  => '/usr/local/nagios/plugins/check_mem 40 60',
+#       'check_blah' => '/usr/local/nagios/plugins/check_blah arg1 arg2',
+#     },
+#   }
 
-class nrpe ( $allowed_hosts, $ensure = running, $enable = true, $service_check_command = {} ) {
+class nrpe ( 
+  $allowed_hosts, 
+  $ensure                = running, 
+  $enable                = true, 
+  $dont_blame_nrpe       = false,
+  $opsview_use           = false,
+  $service_check_command = {},
+) {
 
   validate_array($allowed_hosts)
   validate_hash($service_check_command)
+  validate_bool($enable, $dont_blame_nrpe, $opsview_use)
 
   case $::operatingsystem {
     centos, redhat, amazon: {

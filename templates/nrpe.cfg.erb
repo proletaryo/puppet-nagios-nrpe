@@ -94,9 +94,11 @@ allowed_hosts=127.0.0.1,<%= hosts %>
 #
 # Values: 0=do not allow arguments, 1=allow command arguments
 
+<% if dont_blame_nrpe then -%>
 dont_blame_nrpe=1
-
-
+<% else -%>
+dont_blame_nrpe=0
+<% end -%>
 
 # BASH COMMAND SUBTITUTION
 # This option determines whether or not the NRPE daemon will allow clients
@@ -216,11 +218,11 @@ connection_timeout=300
 
 # The following examples use hardcoded command arguments...
 
-# command[check_users]=/usr/lib64/nagios/plugins/check_users -w 5 -c 10
-# command[check_load]=/usr/lib64/nagios/plugins/check_load -w 15,10,5 -c 30,25,20
-# command[check_hda1]=/usr/lib64/nagios/plugins/check_disk -w 20% -c 10% -p /dev/hda1
-# command[check_zombie_procs]=/usr/lib64/nagios/plugins/check_procs -w 5 -c 10 -s Z
-# command[check_total_procs]=/usr/lib64/nagios/plugins/check_procs -w 150 -c 200 
+# command[check_users]=<%= libpath %>/nagios/plugins/check_users -w 5 -c 10
+# command[check_load]=<%= libpath %>/nagios/plugins/check_load -w 15,10,5 -c 30,25,20
+# command[check_hda1]=<%= libpath %>/nagios/plugins/check_disk -w 20% -c 10% -p /dev/hda1
+# command[check_zombie_procs]=<%= libpath %>/nagios/plugins/check_procs -w 5 -c 10 -s Z
+# command[check_total_procs]=<%= libpath %>/nagios/plugins/check_procs -w 150 -c 200 
 
 
 # The following examples allow user-supplied arguments and can
@@ -229,11 +231,19 @@ connection_timeout=300
 # config file is set to '1'.  This poses a potential security risk, so
 # make sure you read the SECURITY file before doing this.
 
+<% if opsview_use then -%>
 command[check_users]=<%= libpath %>/nagios/plugins/check_users $ARG1$
 command[check_disk]=<%= libpath %>/nagios/plugins/check_disk $ARG1$
 command[check_procs]=<%= libpath %>/nagios/plugins/check_procs $ARG1$ 
 command[check_load]=<%= libpath %>/nagios/plugins/check_load $ARG1$
 command[check_swap]=<%= libpath %>/nagios/plugins/check_swap $ARG1$
+<% else -%>
+# command[check_users]=<%= libpath %>/nagios/plugins/check_users $ARG1$
+# command[check_disk]=<%= libpath %>/nagios/plugins/check_disk $ARG1$
+# command[check_procs]=<%= libpath %>/nagios/plugins/check_procs $ARG1$ 
+# command[check_load]=<%= libpath %>/nagios/plugins/check_load $ARG1$
+# command[check_swap]=<%= libpath %>/nagios/plugins/check_swap $ARG1$
+<% end -%>
 
 # custom commands
 <% service_check_command.each_pair do |name, command| -%>
