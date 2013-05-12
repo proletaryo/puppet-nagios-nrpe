@@ -91,6 +91,16 @@ class nrpe (
   } else {
     $libpath = '/usr/lib'
   }
+  
+  # set the pid file
+  if $::osfamily == 'RedHat' {
+    $pid_file = '/var/run/nrpe.pid'
+  } elsif $::osfamily == 'Debian' {
+    $pid_file = '/var/run/nagios/nrpe.pid'
+  } else {
+    fail("Error: Can't set the pid file, ${::osfamily} is not supported!")
+  }
+
 
   # allowed hosts to connect
   $hosts = join( $allowed_hosts, ',' )
