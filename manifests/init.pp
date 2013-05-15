@@ -72,6 +72,16 @@ class nrpe (
       $packages     = [ 'nagios-nrpe', 'nagios-plugins-users', 'nagios-plugins-load',
         'nagios-plugins-disk', 'nagios-plugins-procs', 'nagios-plugins-swap', ]
 
+      # set the lib path
+      if $::architecture == 'x86_64' {
+        $libpath = '/usr/lib64'
+      } else {
+        $libpath = '/usr/lib'
+      }
+      
+      # set the pid file
+      $pid_file = '/var/run/nrpe.pid'
+  
     }
 
     debian, ubuntu: {
@@ -79,34 +89,20 @@ class nrpe (
       $main_package = 'nagios-nrpe-server'
       $packages     = [ 'nagios-nrpe-server', 'nagios-plugins-basic', 'nagios-plugins', ]
 
+      # config variables
+      $libpath  = '/usr/lib'
+      $pid_file = '/var/run/nagios/nrpe.pid'
+
     }
 
     default: { fail ("Error: Unrecognized operating system = ${::operatingsystem}") }
 
   }
 
-  # set the lib path
-  if $::architecture == 'x86_64' and 
-    ($::osfamily == 'RedHat' or $::operatingsystem == 'Amazon') {
-    $libpath = '/usr/lib64'
-  } else {
-    $libpath = '/usr/lib'
-  }
-  
-  # set the pid file
-  if $::osfamily == 'RedHat' or $::operatingsystem == 'Amazon' {
-    $pid_file = '/var/run/nrpe.pid'
-  } elsif $::osfamily == 'Debian' {
-    $pid_file = '/var/run/nagios/nrpe.pid'
-  } else {
-    fail("Error: Can't set the pid file, ${::osfamily} is not supported!")
-  }
-
-
   # allowed hosts to connect
   $hosts = join( $allowed_hosts, ',' )
 
-  if $::osfamily == 'RedHat' or $::operatingsystem == 'Amazon' {
+  if $::operatingsystem =~ /(?i:RedHat|CentOS|Amazon)/ {
     package { $packages:
       ensure  => installed,
       require => Class['rpmforge'],
@@ -127,6 +123,7 @@ class nrpe (
     content => template('nrpe/nrpe.cfg.erb'),
     require => Package[$main_package],
     notify  => Service[$service],
+
   }
 
   service { $service:
