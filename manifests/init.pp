@@ -86,14 +86,15 @@ class nrpe (
   }
 
   # set the lib path
-  if $::architecture == 'x86_64' and $::osfamily == 'RedHat' {
+  if $::architecture == 'x86_64' and 
+    ($::osfamily == 'RedHat' or $::operatingsystem == 'Amazon') {
     $libpath = '/usr/lib64'
   } else {
     $libpath = '/usr/lib'
   }
   
   # set the pid file
-  if $::osfamily == 'RedHat' {
+  if $::osfamily == 'RedHat' or $::operatingsystem == 'Amazon' {
     $pid_file = '/var/run/nrpe.pid'
   } elsif $::osfamily == 'Debian' {
     $pid_file = '/var/run/nagios/nrpe.pid'
@@ -105,7 +106,7 @@ class nrpe (
   # allowed hosts to connect
   $hosts = join( $allowed_hosts, ',' )
 
-  if $::osfamily == 'RedHat' {
+  if $::osfamily == 'RedHat' or $::operatingsystem == 'Amazon' {
     package { $packages:
       ensure  => installed,
       require => Class['rpmforge'],
