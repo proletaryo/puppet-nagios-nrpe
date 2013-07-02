@@ -82,7 +82,6 @@ class nrpe (
       
       # set the pid file
       $pid_file = '/var/run/nrpe.pid'
-      $server_address = $server_address 
     }
 
     debian, ubuntu: {
@@ -93,8 +92,6 @@ class nrpe (
       # config variables
       $libpath  = '/usr/lib'
       $pid_file = '/var/run/nagios/nrpe.pid'
-      $server_address = $server_address 
-
     }
 
     default: { fail ("Error: Unrecognized operating system = ${::operatingsystem}") }
