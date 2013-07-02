@@ -82,7 +82,7 @@ class nrpe (
       
       # set the pid file
       $pid_file = '/var/run/nrpe.pid'
-
+  
     }
 
     debian, ubuntu: {
