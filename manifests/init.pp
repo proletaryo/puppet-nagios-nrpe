@@ -56,6 +56,7 @@ class nrpe (
   $enable                = true, 
   $dont_blame_nrpe       = false,
   $opsview_use           = false,
+  $server_address        = "0.0.0.0",
   $service_check_command = {},
 ) {
 
