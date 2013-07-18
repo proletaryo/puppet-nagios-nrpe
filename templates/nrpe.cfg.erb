@@ -1,7 +1,7 @@
 #############################################################################
-# Sample NRPE Config File 
+# Sample NRPE Config File
 # Written by: Ethan Galstad (nagios@nagios.org)
-# 
+#
 # Last Modified: 11-23-2007
 #
 # NOTES:
@@ -23,7 +23,7 @@ log_facility=daemon
 # number.  The file is only written if the NRPE daemon is started by the root
 # user and is running in standalone mode.
 
-pid_file=<%= pid_file %>
+pid_file=<%= @pid_file %>
 
 
 
@@ -41,14 +41,14 @@ server_port=5666
 # and you do not want nrpe to bind on all interfaces.
 # NOTE: This option is ignored if NRPE is running under either inetd or xinetd
 
-server_address=<%= server_address %>
+server_address=<%= @server_address %>
 
 
 
 # NRPE USER
-# This determines the effective user that the NRPE daemon should run as.  
+# This determines the effective user that the NRPE daemon should run as.
 # You can either supply a username or a UID.
-# 
+#
 # NOTE: This option is ignored if NRPE is running under either inetd or xinetd
 
 nrpe_user=nagios
@@ -56,9 +56,9 @@ nrpe_user=nagios
 
 
 # NRPE GROUP
-# This determines the effective group that the NRPE daemon should run as.  
+# This determines the effective group that the NRPE daemon should run as.
 # You can either supply a group name or a GID.
-# 
+#
 # NOTE: This option is ignored if NRPE is running under either inetd or xinetd
 
 nrpe_group=nagios
@@ -66,9 +66,9 @@ nrpe_group=nagios
 
 
 # ALLOWED HOST ADDRESSES
-# This is an optional comma-delimited list of IP address or hostnames 
+# This is an optional comma-delimited list of IP address or hostnames
 # that are allowed to talk to the NRPE daemon. Network addresses with a bit mask
-# (i.e. 192.168.1.0/24) are also supported. Hostname wildcards are not currently 
+# (i.e. 192.168.1.0/24) are also supported. Hostname wildcards are not currently
 # supported.
 #
 # Note: The daemon only does rudimentary checking of the client's IP
@@ -78,23 +78,23 @@ nrpe_group=nagios
 #
 # NOTE: This option is ignored if NRPE is running under either inetd or xinetd
 
-allowed_hosts=127.0.0.1,<%= hosts %>
- 
+allowed_hosts=127.0.0.1,<%= @hosts %>
+
 
 
 # COMMAND ARGUMENT PROCESSING
 # This option determines whether or not the NRPE daemon will allow clients
 # to specify arguments to commands that are executed.  This option only works
 # if the daemon was configured with the --enable-command-args configure script
-# option.  
+# option.
 #
-# *** ENABLING THIS OPTION IS A SECURITY RISK! *** 
+# *** ENABLING THIS OPTION IS A SECURITY RISK! ***
 # Read the SECURITY file for information on some of the security implications
 # of enabling this variable.
 #
 # Values: 0=do not allow arguments, 1=allow command arguments
 
-<% if dont_blame_nrpe then -%>
+<% if @dont_blame_nrpe then -%>
 dont_blame_nrpe=1
 <% else -%>
 dont_blame_nrpe=0
@@ -103,15 +103,15 @@ dont_blame_nrpe=0
 # BASH COMMAND SUBTITUTION
 # This option determines whether or not the NRPE daemon will allow clients
 # to specify arguments that contain bash command substitutions of the form
-# $(...).  This option only works if the daemon was configured with both 
-# the --enable-command-args and --enable-bash-command-substitution configure 
+# $(...).  This option only works if the daemon was configured with both
+# the --enable-command-args and --enable-bash-command-substitution configure
 # script options.
 #
-# *** ENABLING THIS OPTION IS A HIGH SECURITY RISK! *** 
+# *** ENABLING THIS OPTION IS A HIGH SECURITY RISK! ***
 # Read the SECURITY file for information on some of the security implications
 # of enabling this variable.
 #
-# Values: 0=do not allow bash command substitutions, 
+# Values: 0=do not allow bash command substitutions,
 #         1=allow bash command substitutions
 
 allow_bash_command_substitution=0
@@ -124,9 +124,9 @@ allow_bash_command_substitution=0
 # command line from the command definition.
 #
 # *** THIS EXAMPLE MAY POSE A POTENTIAL SECURITY RISK, SO USE WITH CAUTION! ***
-# Usage scenario: 
+# Usage scenario:
 # Execute restricted commmands using sudo.  For this to work, you need to add
-# the nagios user to your /etc/sudoers.  An example entry for alllowing 
+# the nagios user to your /etc/sudoers.  An example entry for alllowing
 # execution of the plugins from might be:
 #
 # nagios          ALL=(ALL) NOPASSWD: /usr/lib/nagios/plugins/
@@ -135,7 +135,7 @@ allow_bash_command_substitution=0
 # without asking for a password.  If you do this, make sure you don't give
 # random users write access to that directory or its contents!
 
-# command_prefix=/usr/bin/sudo 
+# command_prefix=/usr/bin/sudo
 
 
 
@@ -218,34 +218,34 @@ connection_timeout=300
 
 # The following examples use hardcoded command arguments...
 
-# command[check_users]=<%= libpath %>/nagios/plugins/check_users -w 5 -c 10
-# command[check_load]=<%= libpath %>/nagios/plugins/check_load -w 15,10,5 -c 30,25,20
-# command[check_hda1]=<%= libpath %>/nagios/plugins/check_disk -w 20% -c 10% -p /dev/hda1
-# command[check_zombie_procs]=<%= libpath %>/nagios/plugins/check_procs -w 5 -c 10 -s Z
-# command[check_total_procs]=<%= libpath %>/nagios/plugins/check_procs -w 150 -c 200 
+# command[check_users]=<%= @libpath %>/nagios/plugins/check_users -w 5 -c 10
+# command[check_load]=<%= @libpath %>/nagios/plugins/check_load -w 15,10,5 -c 30,25,20
+# command[check_hda1]=<%= @libpath %>/nagios/plugins/check_disk -w 20% -c 10% -p /dev/hda1
+# command[check_zombie_procs]=<%= @libpath %>/nagios/plugins/check_procs -w 5 -c 10 -s Z
+# command[check_total_procs]=<%= @libpath %>/nagios/plugins/check_procs -w 150 -c 200
 
 
 # The following examples allow user-supplied arguments and can
-# only be used if the NRPE daemon was compiled with support for 
+# only be used if the NRPE daemon was compiled with support for
 # command arguments *AND* the dont_blame_nrpe directive in this
 # config file is set to '1'.  This poses a potential security risk, so
 # make sure you read the SECURITY file before doing this.
 
-<% if opsview_use then -%>
-command[check_users]=<%= libpath %>/nagios/plugins/check_users $ARG1$
-command[check_disk]=<%= libpath %>/nagios/plugins/check_disk $ARG1$
-command[check_procs]=<%= libpath %>/nagios/plugins/check_procs $ARG1$ 
-command[check_load]=<%= libpath %>/nagios/plugins/check_load $ARG1$
-command[check_swap]=<%= libpath %>/nagios/plugins/check_swap $ARG1$
+<% if @opsview_use then -%>
+command[check_users]=<%= @libpath %>/nagios/plugins/check_users $ARG1$
+command[check_disk]=<%= @libpath %>/nagios/plugins/check_disk $ARG1$
+command[check_procs]=<%= @libpath %>/nagios/plugins/check_procs $ARG1$
+command[check_load]=<%= @libpath %>/nagios/plugins/check_load $ARG1$
+command[check_swap]=<%= @libpath %>/nagios/plugins/check_swap $ARG1$
 <% else -%>
-# command[check_users]=<%= libpath %>/nagios/plugins/check_users $ARG1$
-# command[check_disk]=<%= libpath %>/nagios/plugins/check_disk $ARG1$
-# command[check_procs]=<%= libpath %>/nagios/plugins/check_procs $ARG1$ 
-# command[check_load]=<%= libpath %>/nagios/plugins/check_load $ARG1$
-# command[check_swap]=<%= libpath %>/nagios/plugins/check_swap $ARG1$
+# command[check_users]=<%= @libpath %>/nagios/plugins/check_users $ARG1$
+# command[check_disk]=<%= @libpath %>/nagios/plugins/check_disk $ARG1$
+# command[check_procs]=<%= @libpath %>/nagios/plugins/check_procs $ARG1$
+# command[check_load]=<%= @libpath %>/nagios/plugins/check_load $ARG1$
+# command[check_swap]=<%= @libpath %>/nagios/plugins/check_swap $ARG1$
 <% end -%>
 
 # custom commands
-<% service_check_command.each_pair do |name, command| -%>
-command[<%= name %>]=<%= command %>
+<% @service_check_command.each_pair do |@name, @command| -%>
+command[<%= @name %>]=<%= @command %>
 <% end -%>
