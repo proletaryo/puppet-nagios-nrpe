@@ -246,6 +246,6 @@ command[check_swap]=<%= @libpath %>/nagios/plugins/check_swap $ARG1$
 <% end -%>
 
 # custom commands
-<% @service_check_command.each_pair do |name, command| -%>
+<% @service_check_command.sort.map do |name, command| -%>
 command[<%= name %>]=<%= command %>
 <% end -%>
