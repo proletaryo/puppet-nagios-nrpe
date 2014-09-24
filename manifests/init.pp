@@ -65,8 +65,26 @@ class nrpe (
   validate_bool($enable, $dont_blame_nrpe, $opsview_use)
 
   case $::operatingsystem {
+    amazon: {
+      $service      = 'nrpe'
+      $main_package = 'nrpe'
+      $packages     = [ 'nrpe', 'nagios-plugins-users', 'nagios-plugins-load',
+        'nagios-plugins-disk', 'nagios-plugins-procs', 'nagios-plugins-swap', ]
+
+      # set the lib path
+      if $::architecture == 'x86_64' {
+        $libpath = '/usr/lib64'
+      } else {
+        $libpath = '/usr/lib'
+      }
+
+      # set the pid file
+      $pid_file = '/var/run/nrpe/nrpe.pid'
+      $template_file = 'nrpe/Amazon.nrpe.cfg.erb'
+    }
     centos, redhat, amazon: {
-      if ! defined(Class['rpmforge']) { include rpmforge }
+      # if ! defined(Class['rpmforge']) { include rpmforge }
+      if ! defined(Class['repoforge']) { include repoforge }
 
       $service      = 'nrpe'
       $main_package = 'nagios-nrpe'
@@ -79,10 +97,11 @@ class nrpe (
       } else {
         $libpath = '/usr/lib'
       }
-      
+
       # set the pid file
       $pid_file = '/var/run/nrpe.pid'
-  
+      $template_file = 'nrpe/nrpe.cfg.erb'
+
     }
 
     debian, ubuntu: {
@@ -93,6 +112,7 @@ class nrpe (
       # config variables
       $libpath  = '/usr/lib'
       $pid_file = '/var/run/nagios/nrpe.pid'
+      $template_file = 'nrpe/nrpe.cfg.erb'
 
     }
 
@@ -103,10 +123,11 @@ class nrpe (
   # allowed hosts to connect
   $hosts = join( $allowed_hosts, ',' )
 
-  if $::operatingsystem =~ /(?i:RedHat|CentOS|Amazon)/ {
+  if $::operatingsystem =~ /(?i:RedHat|CentOS)/ {
     package { $packages:
       ensure  => installed,
-      require => Class['rpmforge'],
+      # require => Class['rpmforge'],
+      require => Class['repoforge'],
     }
   }
   else {
@@ -121,7 +142,7 @@ class nrpe (
     mode    => 644,
     owner   => 'root',
     group   => 'root',
-    content => template('nrpe/nrpe.cfg.erb'),
+    content => template($template_file),
     require => Package[$main_package],
     notify  => Service[$service],
 
