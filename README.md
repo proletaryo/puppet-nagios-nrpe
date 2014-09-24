@@ -77,5 +77,5 @@ Note: You have to set `dont_blame_nrpe => true` for this to work properly.
 ## Dependencies
 
 For RHEL based distributions.
-  * for version 1.3.0+ : [lboynton-rpmforge](https://github.com/lboynton/puppet-rpmforge)
-  * for version 1.2.x (or below) : [yguenane-repoforge](https://github.com/Spredzy/puppet-repoforge)
+  * for version 1.3.0+ : [yguenane-repoforge](https://github.com/Spredzy/puppet-repoforge)
+  * for version 1.2.x (or below) : [lboynton-rpmforge](https://github.com/lboynton/puppet-rpmforge)
