@@ -38,7 +38,7 @@ If you want to add custom service check commands:
       allowed_hosts         => [ "192.168.56.9", "10.10.10.23", ],
       ensure                => running,
       enable                => false,
-      service_check_command => { 
+      service_check_command => {
         'check_mem'  => '/usr/local/nagios/plugins/check_mem 40 60',
         'check_blah' => '/usr/local/nagios/plugins/check_blah arg1 arg2',
       },
@@ -57,7 +57,7 @@ If you use Opsview, you might want to enable argument passing and some default c
       enable                => true,
       dont_blame_nrpe       => true,
       opsview_use           => true,
-      service_check_command => { 
+      service_check_command => {
         'check_mem'  => '/usr/local/nagios/plugins/check_mem 40 60',
       }
     }
@@ -76,4 +76,6 @@ Note: You have to set `dont_blame_nrpe => true` for this to work properly.
 
 ## Dependencies
 
-Requires the [lboynton-rpmforge](https://github.com/lboynton/puppet-rpmforge) module for RHEL based distributions.
+For RHEL based distributions.
+  * for version 1.3.0+ : [lboynton-rpmforge](https://github.com/lboynton/puppet-rpmforge)
+  * for version 1.2.x (or below) : [yguenane-repoforge](https://github.com/Spredzy/puppet-repoforge)
