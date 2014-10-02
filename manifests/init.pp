@@ -7,10 +7,13 @@
 # enable::          optional, true or false, default=true
 # dont_blame_nrpe:: optional, Toggle the dont_blame_nrpe config to enable/disable argument passing
 #                   to check commands, default=false (dont_blame_nrpe=0)
-# opsview_use::    optional, Define basic check commands with arguments enabled, you have to set
+# opsview_use::     optional, Define basic check commands with arguments enabled, you have to set
 #                   dont_blame_nrpe=true to make this work
 # service_check_command:: optional, A hash containing the additional command definition
 #                         e.g. { 'command_name' => '/path/to/it ARG' }
+#
+# include_nrpe_d::  optional, include checks in nrpe.d directory
+#
 #
 # == Requires:
 #
@@ -26,6 +29,13 @@
 #     allowed_hosts => [ "192.168.56.9", "10.10.10.23", ],
 #     ensure => running,
 #     enable => false,
+#   }
+#
+#   class { 'nrpe':
+#     allowed_hosts => [ "192.168.56.9", "10.10.10.23", ],
+#     ensure         => running,
+#     enable         => false,
+#     include_nrpe_d => true,    
 #   }
 #
 #   class { 'nrpe':
@@ -58,6 +68,7 @@ class nrpe (
   $opsview_use           = false,
   $server_address        = "0.0.0.0",
   $service_check_command = {},
+  $include_nrpe_d        = false,
 ) {
 
   validate_array($allowed_hosts)
