@@ -74,6 +74,10 @@ This will enable the following check commands in `/etc/nagios/nrpe.cfg`:
 
 Note: You have to set `dont_blame_nrpe => true` for this to work properly.
 
+### `include_nrpe_d => true`
+
+This will include all files in nrpe.d/ as nrpe config
+
 ## Dependencies
 
 For RHEL based distributions.
