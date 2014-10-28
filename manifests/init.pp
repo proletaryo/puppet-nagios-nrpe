@@ -161,7 +161,7 @@ class nrpe (
     ensure     => $ensure,
     enable     => $enable,
     hasrestart => true,
-    hasstatus  => true,
+    hasstatus  => false,
     require    => [ Package[$main_package], File['nrpe.cfg'] ],
 
   }
