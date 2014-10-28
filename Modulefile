@@ -1,5 +1,5 @@
 name 'phagedorn-nrpe'
-version '1.4.1'
+version '1.4.2'
 summary "NRPE installation & management"
 description "NRPE installation & management module for CentOS/Ubuntu/AWS Linux"
 source "https://github.com/phagedorn/puppet-nagios-nrpe"
