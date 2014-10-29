@@ -23,7 +23,7 @@ Basic:
     class { 'nrpe':
       allowed_hosts => [ "192.168.56.9", "10.10.10.23", ],
     }
- 
+
 Modify the behaviour of the NRPE service:
 
     class { 'nrpe':
@@ -76,7 +76,7 @@ Note: You have to set `dont_blame_nrpe => true` for this to work properly.
 
 ### `include_nrpe_d => true`
 
-This will include all files in nrpe.d/ as nrpe config
+This will include all files in nrpe.d/ as nrpe config.
 
 ## Dependencies
 
