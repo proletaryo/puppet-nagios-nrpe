@@ -7,10 +7,13 @@
 # enable::          optional, true or false, default=true
 # dont_blame_nrpe:: optional, Toggle the dont_blame_nrpe config to enable/disable argument passing
 #                   to check commands, default=false (dont_blame_nrpe=0)
-# opsview_use::    optional, Define basic check commands with arguments enabled, you have to set
+# opsview_use::     optional, Define basic check commands with arguments enabled, you have to set
 #                   dont_blame_nrpe=true to make this work
 # service_check_command:: optional, A hash containing the additional command definition
 #                         e.g. { 'command_name' => '/path/to/it ARG' }
+#
+# include_nrpe_d::  optional, include checks in nrpe.d directory
+#
 #
 # == Requires:
 #
@@ -26,6 +29,13 @@
 #     allowed_hosts => [ "192.168.56.9", "10.10.10.23", ],
 #     ensure => running,
 #     enable => false,
+#   }
+#
+#   class { 'nrpe':
+#     allowed_hosts => [ "192.168.56.9", "10.10.10.23", ],
+#     ensure         => running,
+#     enable         => false,
+#     include_nrpe_d => true,
 #   }
 #
 #   class { 'nrpe':
@@ -51,13 +61,14 @@
 #   }
 
 class nrpe (
-  $allowed_hosts,
+  $allowed_hosts         = '127.0.0.1',
   $ensure                = running,
   $enable                = true,
   $dont_blame_nrpe       = false,
   $opsview_use           = false,
-  $server_address        = "0.0.0.0",
+  $server_address        = '0.0.0.0',
   $service_check_command = {},
+  $include_nrpe_d        = false,
 ) {
 
   validate_array($allowed_hosts)
@@ -81,6 +92,15 @@ class nrpe (
       # set the pid file
       $pid_file = '/var/run/nrpe/nrpe.pid'
       $template_file = 'nrpe/Amazon.nrpe.cfg.erb'
+
+      service { $service:
+        ensure     => $ensure,
+        enable     => $enable,
+        hasrestart => true,
+        hasstatus  => true,
+        require    => [ Package[$main_package], File['nrpe.cfg'] ],
+      }
+
     }
     centos, redhat: {
       if ! defined(Class['repoforge']) { include repoforge }
@@ -101,6 +121,14 @@ class nrpe (
       $pid_file = '/var/run/nrpe.pid'
       $template_file = 'nrpe/nrpe.cfg.erb'
 
+      service { $service:
+        ensure     => $ensure,
+        enable     => $enable,
+        hasrestart => true,
+        hasstatus  => true,
+        require    => [ Package[$main_package], File['nrpe.cfg'] ],
+      }
+
     }
 
     debian, ubuntu: {
@@ -112,6 +140,15 @@ class nrpe (
       $libpath  = '/usr/lib'
       $pid_file = '/var/run/nagios/nrpe.pid'
       $template_file = 'nrpe/nrpe.cfg.erb'
+
+      service { $service:
+        ensure     => $ensure,
+        enable     => $enable,
+        hasrestart => true,
+        hasstatus  => false,
+        status     => 'ps -Ao user,pid,command | egrep "^[n]agios" | grep -q "nrpe -c /etc/nagios/nrpe.cfg -d"',
+        require    => [ Package[$main_package], File['nrpe.cfg'] ],
+      }
 
     }
 
@@ -135,23 +172,14 @@ class nrpe (
   }
 
   file { 'nrpe.cfg':
-    path    => '/etc/nagios/nrpe.cfg',
     ensure  => file,
-    mode    => 644,
+    path    => '/etc/nagios/nrpe.cfg',
+    mode    => '0644',
     owner   => 'root',
     group   => 'root',
     content => template($template_file),
     require => Package[$main_package],
     notify  => Service[$service],
-
-  }
-
-  service { $service:
-    ensure     => $ensure,
-    enable     => $enable,
-    hasrestart => true,
-    hasstatus  => true,
-    require    => [ Package[$main_package], File['nrpe.cfg'] ],
 
   }
 

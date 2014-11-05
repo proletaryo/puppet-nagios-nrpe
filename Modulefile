@@ -1,7 +1,8 @@
-name 'proletaryo-nrpe'
-version '1.3.0'
+name 'phagedorn-nrpe'
+version '1.4.4'
 summary "NRPE installation & management"
 description "NRPE installation & management module for CentOS/Ubuntu/AWS Linux"
-project_page "https://github.com/proletaryo/puppet-nagios-nrpe"
+source "https://github.com/phagedorn/puppet-nagios-nrpe"
+project_page "https://github.com/phagedorn/puppet-nagios-nrpe"
 dependency 'puppetlabs/stdlib', '>= 3.2.0'
 dependency 'yguenane/repoforge', '>= 0.2.0'
