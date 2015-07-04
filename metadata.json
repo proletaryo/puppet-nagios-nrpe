@@ -1,0 +1,29 @@
+{
+  "name": "proletaryo-nrpe",
+  "version": "1.3.1",
+  "author": "proletaryo",
+  "license": "Apache-2.0",
+  "summary": "NRPE installation & management module for CentOS/Ubuntu/AWS Linux",
+  "source": "https://github.com/proletaryo/puppet-nagios-nrpe",
+  "project_page": "https://forge.puppetlabs.com/proletaryo/nrpe",
+  "issues_url": "https://github.com/proletaryo/puppet-nagios-nrpe/issues",
+  "tags": [ "nagios", "monitoring", "nrpe", "opsview" ],
+  "operatingsystem_support": [
+    {
+      "operatingsystem": "Amazon",
+      "operatingsystemrelease":[ "2014.09", "2015.03" ]
+    },
+    {
+      "operatingsystem": "CentOS",
+      "operatingsystemrelease": [ "6.4" ]
+    },
+    {
+      "operatingsystem": "Ubuntu",
+      "operatingsystemrelease": [ "12.04" ]
+    }
+   ],
+   "dependencies": [
+     { "name": "yguenane/repoforge", "version_requirement": ">= 0.2.0" },
+     { "name": "puppetlabs/stdlib", "version_requirement": ">= 3.2.0" },
+   ]
+}

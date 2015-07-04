@@ -56,7 +56,7 @@ class nrpe (
   $enable                = true,
   $dont_blame_nrpe       = false,
   $opsview_use           = false,
-  $server_address        = "0.0.0.0",
+  $server_address        = '0.0.0.0',
   $service_check_command = {},
 ) {
 
@@ -135,9 +135,9 @@ class nrpe (
   }
 
   file { 'nrpe.cfg':
-    path    => '/etc/nagios/nrpe.cfg',
     ensure  => file,
-    mode    => 644,
+    path    => '/etc/nagios/nrpe.cfg',
+    mode    => '0644',
     owner   => 'root',
     group   => 'root',
     content => template($template_file),
